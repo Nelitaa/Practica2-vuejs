@@ -1,10 +1,5 @@
 <template>
-  <app-menu></app-menu>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-
+  <app-menu title="MegaDron"></app-menu>
   <router-view />
 </template>
 
