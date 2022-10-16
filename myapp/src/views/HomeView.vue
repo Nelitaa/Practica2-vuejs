@@ -1,17 +1,15 @@
 <template>
-  <div class="home">
-    <Welcome msg="Bienvenido!" />
-  </div>
+  <div></div>
 </template>
 
 <script>
-// @ is an alias to /src
-import Welcome from "@/components/Welcome.vue";
 
 export default {
   name: "HomeView",
   components: {
-    Welcome,
   },
+  mounted(){
+    window.location.href = `http://localhost:8080/products?id=1`;
+},
 };
 </script>
