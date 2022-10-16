@@ -32,12 +32,19 @@
         </div>
         <h5>Cantidad</h5>
         <div class="quantity">
-          <button>-</button>
-          <div>1</div>
-          <button>+</button>
+          <button @click="decrementar()">-</button>
+          <div>{{ this.pedido.cantidad }}</div>
+          <button @click="incrementar()">+</button>
         </div>
         <div class="buy-box">
-          <button type="button" class="btn btn-primary">Comprar</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click.once="comprar()"
+            :disabled="isDisabled"
+          >
+            Comprar
+          </button>
         </div>
       </div>
     </div>
@@ -50,11 +57,40 @@ import RelatedProductsView from "@/components/RelatedProductsView.vue";
 export default {
   name: "productView",
   data() {
-    return {};
+    return {
+      pedido: {
+        id: null,
+        cantidad: 1,
+        color: null,
+      },
+      infoValid: false,
+    };
   },
-  methods: {},
-  computed: {},
-  mounted() {},
+  methods: {
+    comprar: function () {
+      alert(
+        ` Id producto es: ${this.pedido.id}\n La cantidad es: ${this.pedido.cantidad}\n El color seleccionado es: ${this.pedido.color}`
+      );
+    },
+    incrementar: function () {
+      this.pedido.cantidad++;
+    },
+    decrementar: function () {
+      if (this.pedido.cantidad === 0) return;
+      this.pedido.cantidad--;
+    },
+    pickColor: function (color) {
+      if (color) this.pedido.color = color;
+    },
+  },
+  computed: {
+    isDisabled: function () {
+      return !(this.pedido.cantidad > 0 && this.pedido.color);
+    },
+  },
+  mounted() {
+    this.pedido.id = this.producto.id;
+  },
   components: {
     RelatedProductsView,
   },
