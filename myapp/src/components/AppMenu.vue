@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg" style="background-color: gray">
+  <nav class="navbar navbar-expand-lg" style="background-color: lightblue">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">{{ title }}</a>
       <button
@@ -15,9 +15,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><router-link to="/">Inicio</router-link> |</li>
           <li class="nav-item">
-            <router-link to="/about">Tienda</router-link>
+            <router-link to="/" class="nav-link">Inicio</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about" class="nav-link">Tienda</router-link>
           </li>
         </ul>
       </div>
