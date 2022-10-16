@@ -1,48 +1,34 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3>Dron LU3 MAX GPS 8K HD</h3>
+      <h3> {{pageProduct?.nombre}}</h3>
     </div>
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4">
         <img
-          src="https://ae01.alicdn.com/kf/Sc3cc58f2a441419f970cc01f9e5358fbw/Dron-LU3-MAX-GPS-8K-HD-profesional-con-c-mara-Dual-card-n-autoestabilizador-Motor-sin.jpg_Q90.jpg_.webp"
+          :src="pageProduct?.imagen"
           alt=""
-          width="100%"
+          class="img-fluid"
         />
       </div>
       <div class="col-12 col-sm-6 col-md-8">
         <h6>
-          Dron LU3 MAX GPS 8K HD profesional con <b>cámara Dual</b> cardán
-          autoestabilizador, Motor sin escobillas para evitar obstáculos,
-          cuadricóptero plegable
+         {{pageProduct?.descripcion}}
         </h6>
         <div
           class="p-3 mb-2 text-white"
           style="background: orangered; color: white; font-weight: bold"
         >
-          Precio: 620 BOB
+          Precio: {{ pageProduct?.precio }} BOB
         </div>
         <h5>Color</h5>
+
         <div>
           <div
+            v-for="color in pageProduct?.colores"
+            :key="color"
             class="color-box clic"
-            style="background: red"
-            @click="pickColor(color)"
-          ></div>
-          <div
-            class="color-box clic"
-            style="background: blue"
-            @click="pickColor(color)"
-          ></div>
-          <div
-            class="color-box clic"
-            style="background: black"
-            @click="pickColor(color)"
-          ></div>
-          <div
-            class="color-box clic"
-            style="background: yellow"
+            :style="{ backgroundColor: color }"
             @click="pickColor(color)"
           ></div>
         </div>
@@ -70,6 +56,8 @@
 
 <script>
 import RelatedProductsView from "@/components/RelatedProductsView.vue";
+import json from '../../database/db.json'
+
 export default {
   name: "productView",
   data() {
@@ -79,6 +67,7 @@ export default {
         cantidad: 1,
         color: null,
       },
+      pageProduct: null,
       infoValid: false,
     };
   },
@@ -96,6 +85,8 @@ export default {
       this.pedido.cantidad--;
     },
     pickColor: function (color) {
+      // log color variable
+      console.log(color);
       if (color) this.pedido.color = color;
     },
   },
@@ -104,7 +95,11 @@ export default {
       return !(this.pedido.cantidad > 0 && this.pedido.color);
     },
   },
-  mounted() {},
+  mounted() {
+    let vue = this;
+    vue.pageProduct = json.productos.find(prod => prod.id === parseInt(this.$route.query.id))
+    vue.pedido.id = vue.pageProduct.id
+  },
   components: {
     RelatedProductsView,
   },
