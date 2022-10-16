@@ -25,10 +25,26 @@
         </div>
         <h5>Color</h5>
         <div>
-          <div class="color-box clic" style="background: red"></div>
-          <div class="color-box clic" style="background: blue"></div>
-          <div class="color-box clic" style="background: black"></div>
-          <div class="color-box clic" style="background: yellow"></div>
+          <div
+            class="color-box clic"
+            style="background: red"
+            @click="pickColor(color)"
+          ></div>
+          <div
+            class="color-box clic"
+            style="background: blue"
+            @click="pickColor(color)"
+          ></div>
+          <div
+            class="color-box clic"
+            style="background: black"
+            @click="pickColor(color)"
+          ></div>
+          <div
+            class="color-box clic"
+            style="background: yellow"
+            @click="pickColor(color)"
+          ></div>
         </div>
         <h5>Cantidad</h5>
         <div class="quantity">
@@ -88,9 +104,7 @@ export default {
       return !(this.pedido.cantidad > 0 && this.pedido.color);
     },
   },
-  mounted() {
-    this.pedido.id = this.producto.id;
-  },
+  mounted() {},
   components: {
     RelatedProductsView,
   },
