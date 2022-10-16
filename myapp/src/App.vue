@@ -1,7 +1,7 @@
 <template>
   <app-menu title="MegaDron"></app-menu>
   <router-view />
-  <footer style="background-color: Slategrey"></footer>
+  <AppFooter />
 </template>
 
 <script>

@@ -21,12 +21,6 @@ const routes = [
     name: 'products',
     component: () => import(/* webpackChunkName: "products" */ '../views/ProductsView.vue')
   },
-
-  {
-    path: '/products/:id',
-    name: 'SeeProducts',
-    component: () => import(/* webpackChunkName: "SeeProducts" */ '../views/SeeProductsView.vue')
-  },
 ]
 
 const router = createRouter({
