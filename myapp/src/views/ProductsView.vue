@@ -56,12 +56,13 @@
 
 <script>
 import RelatedProductsView from "@/components/RelatedProductsView.vue";
-import json from '../../database/db.json'
+import axios from "axios";
 
 export default {
   name: "productView",
   data() {
     return {
+      productos: [],
       pedido: {
         id: null,
         cantidad: 1,
@@ -72,6 +73,25 @@ export default {
     };
   },
   methods: {
+    getProductos() {
+      axios({
+          method: "get",
+          url: "http://localhost:3333/productos",
+      })
+          .then(response => {
+              this.productos = response.data;
+              const productFound = this.productos.find(
+                  (product) => product.id == this.$route.query.id
+              );
+              if(!productFound) {
+                this.pageProduct = this.productos[0];
+              } else {
+                this.pageProduct = productFound;
+              }
+              this.pedido.id = this.pageProduct.id;
+          })
+          .catch(e => console.log(e));
+    },
     comprar: function () {
       alert(
         ` Id producto es: ${this.pedido.id}\n La cantidad es: ${this.pedido.cantidad}\n El color seleccionado es: ${this.pedido.color}`
@@ -96,9 +116,7 @@ export default {
     },
   },
   mounted() {
-    let vue = this;
-    vue.pageProduct = json.productos.find(prod => prod.id === parseInt(this.$route.query.id))
-    vue.pedido.id = vue.pageProduct.id
+    this.getProductos()
   },
   components: {
     RelatedProductsView,
