@@ -9,7 +9,7 @@ export default {
   components: {
   },
   mounted(){
-    window.location.href = `http://localhost:8080/products?id=1`;
+    window.location.href = `http://localhost:8080/products/1`;
 },
 };
 </script>

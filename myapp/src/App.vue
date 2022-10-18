@@ -1,7 +1,9 @@
 <template>
-  <app-menu title="MegaDron"></app-menu>
-  <router-view />
-  <AppFooter />
+  <div>
+    <app-menu title="MegaDron"></app-menu>
+    <router-view />
+    <appFooter />
+  </div>
 </template>
 
 <script>
