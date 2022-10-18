@@ -1,31 +1,29 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3> {{pageProduct?.nombre}}</h3>
+      <h3> {{ producto.nombre }}</h3>
     </div>
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4">
         <img
-          :src="pageProduct?.imagen"
-          alt=""
+          :src="producto.imagen"
+          :alt="producto.id"
           class="img-fluid"
         />
       </div>
       <div class="col-12 col-sm-6 col-md-8">
-        <h6>
-         {{pageProduct?.descripcion}}
-        </h6>
+        <h6 v-html="producto.descripcion"></h6>
         <div
           class="p-3 mb-2 text-white"
-          style="background: orangered; color: white; font-weight: bold"
+          :style="configuracionPagina.precioEstilos"
         >
-          Precio: {{ pageProduct?.precio }} BOB
+          Precio: {{ producto.precio }} BOB
         </div>
         <h5>Color</h5>
 
         <div>
           <div
-            v-for="color in pageProduct?.colores"
+            v-for="color in producto.colores"
             :key="color"
             class="color-box clic"
             :style="{ backgroundColor: color }"
@@ -50,8 +48,8 @@
         </div>
       </div>
     </div>
+    <RelatedProductsView class="container" :prod="this.productos.filter( product => product.id !== this.producto.id)"/>
   </div>
-  <RelatedProductsView class="container" />
 </template>
 
 <script>
@@ -62,35 +60,31 @@ export default {
   name: "productView",
   data() {
     return {
+      producto: {},
       productos: [],
       pedido: {
         id: null,
         cantidad: 1,
         color: null,
       },
-      pageProduct: null,
       infoValid: false,
+      configuracionPagina: {
+          precioEstilos: "background: orangered; color: white; font-weight: bold"
+      },
     };
   },
   methods: {
     getProductos() {
       axios({
           method: "get",
-          url: "http://localhost:3333/productos",
+          url: "http://localhost:3333/productos/",
       })
-          .then(response => {
-              this.productos = response.data;
-              const productFound = this.productos.find(
-                  (product) => product.id == this.$route.query.id
-              );
-              if(!productFound) {
-                this.pageProduct = this.productos[0];
-              } else {
-                this.pageProduct = productFound;
-              }
-              this.pedido.id = this.pageProduct.id;
-          })
-          .catch(e => console.log(e));
+        .then(response => {
+            this.productos = response.data;
+            this.producto = this.productos[this.$route.params.id-1];
+            this.pedido.id = this.producto.id;
+        })
+        .catch(e => console.log(e));
     },
     comprar: function () {
       alert(
@@ -105,8 +99,6 @@ export default {
       this.pedido.cantidad--;
     },
     pickColor: function (color) {
-      // log color variable
-      console.log(color);
       if (color) this.pedido.color = color;
     },
   },

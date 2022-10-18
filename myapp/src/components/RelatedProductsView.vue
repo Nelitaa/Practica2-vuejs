@@ -5,25 +5,24 @@
     </div>
     <div class="row">
       <div
-        v-for="product in related"
+        v-for="product in prod"
         :key="product.id"
         class="col"
         style="cursor: pointer "
         @click="redirect(product.id)"
-
       >
       <div class="card" style="width: 18rem">
         <div class="card-body">
-            <h5 class="card-title">{{ product.nombre}}</h5>
+            <h5 class="card-title">{{ product.nombre }}</h5>
             <img
               :src="product.imagen"
-              alt=""
+              :alt="product.id"
               class="img-fluid"
             />
             <p class="card-text">
               {{ product.descripcion }}
             </p>
-            <div  class="producto-relacionado-precio">Precio:{{ product.precio}} BOB</div>
+            <div  class="producto-relacionado-precio">Precio:{{ product.precio }} BOB</div>
             <div>
               <div>
                 <div
@@ -45,30 +44,18 @@
 import axios from "axios";
 export default {
   name: "RelatedProductsView",
+  props: ['prod'],
   data() {
     return {
-      related: []
     };
   },
   methods: {
-    getProductos() {
-      axios({
-          method: "get",
-          url: "http://localhost:3333/productos",
-      })
-          .then(response => {
-            this.related = response.data.filter(product => product.id != this.$route.query.id)
-
-          })
-          .catch(e => console.log(e));
-    },
     redirect(id) {
-      window.location.href = `http://localhost:8080/products?id=${id}`;
+      window.location.href = `http://localhost:8080/products/${id}`;
     }
   },
   computed: {},
   mounted() {
-    this.getProductos();
   },
   components: {},
 };
@@ -110,7 +97,5 @@ export default {
   color: white;
   text-align: center;
   padding: 10px;
-}
-h2 {
 }
 </style>
