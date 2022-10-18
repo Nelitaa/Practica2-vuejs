@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import json from "../../database/db.json";
+import axios from "axios";
 export default {
   name: "RelatedProductsView",
   data() {
@@ -51,15 +51,24 @@ export default {
     };
   },
   methods: {
+    getProductos() {
+      axios({
+          method: "get",
+          url: "http://localhost:3333/productos",
+      })
+          .then(response => {
+            this.related = response.data.filter(product => product.id != this.$route.query.id)
+
+          })
+          .catch(e => console.log(e));
+    },
     redirect(id) {
       window.location.href = `http://localhost:8080/products?id=${id}`;
     }
   },
   computed: {},
   mounted() {
-    console.log(json);
-    const vue = this
-    vue.related = json.productos.filter(product => product.id != this.$route.query.id)
+    this.getProductos();
   },
   components: {},
 };
